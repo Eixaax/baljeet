@@ -1,0 +1,284 @@
+{% load static %}
+<!doctype html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="">
+        <meta name="author" content="">
+      
+
+        <title>Baljeet</title>
+
+        <!-- CSS FILES -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100;300;400;600;700&display=swap" rel="stylesheet">
+       
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+       
+        <link href="{% static 'css/bootstrap-icons.css' %}" rel="stylesheet">
+
+        <link href="{% static 'css/owl.carousel.min.css' %}" rel="stylesheet">
+
+        <link href="{% static 'css/owl.theme.default.min.css' %}" rel="stylesheet">
+
+        <link href="{% static 'css/style.css' %}" rel="stylesheet">
+        
+        <link href="{% static 'css/everything.css' %}" rel="stylesheet">
+
+        <link rel="icon" href="{% static 'images/icon.png' %}" type="image/x-icon">
+
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    </head>
+
+
+    <body >
+
+        <div class="pop">
+            <div class="pop-content">
+    
+                    <form method="post" action="{% url 'add_items' %}">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <img src="{%static 'images/ccc.png' %}" alt="close" class="close">
+                        <input type="text" name="name" id="name" placeholder="Type of expenses"required>
+                        <input type="number" name="price" id="price" placeholder="Price"required>
+                        <input type="text" name="desc" id="desc" placeholder="Description" required>
+                        <div class="center-container">
+                            <button>
+                                <span class="transition"></span>
+                                <span class="gradient"></span>
+                                <span class="label">Add Item</span>
+                              </button>
+                        </div>
+                    </form>
+               
+            </div>
+        </div>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="{%url 'home'%}">
+                    <img src="{% static 'images/newlogofinal.png' %}" class="img-fluid logo-image">
+                    <div class="d-flex flex-column">
+                        <strong class="logo-text">Baljeet</strong>
+                        <small class="logo-slogan">Where Money Meets Intelligence</small>
+
+                    </div>
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav align-items-center ms-lg-5">
+
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Dashboard</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{%url 'about'%}">About Baljeet</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{%url 'contact'%}">Contacts</a>
+                        </li>
+                        </li>
+
+                    {% if user.is_authenticated %}
+                        <li class="nav-item ms-lg-auto">
+                            <a class="nav-link custom-btn btn" href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item ms-lg-auto">
+                            <a class="nav-link custom-btn btn" href="{% url 'login' %}">Login</a>
+                        </li>
+                    {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class = "header-margin-container"> </div>
+        
+        <section class = "body-section">
+            <div class = "wallet-expenses">
+                <div class=" wallet-box">
+                    <div class = "item-box profile-container">
+                        {% for msg in messages %}
+                            {% if msg.tags == 'success' %}
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <strong>Success!</strong> {{ msg }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% elif msg.tags == 'error' %}
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong>Error!</strong> {{ msg }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    
+                    
+                        <div class = "circular">
+                        {% if balance.profile_picture %}
+                        <img src="{{ balance.profile_picture.url }}" alt="Profile Picture">
+                        {% else %}
+                        <img src="{%static 'images/defpic.png' %}" alt="Profile Picture">
+                        {% endif %}
+
+                        </div>
+                        <h2>{{ request.user.username }}</h2>
+                        <form method="post" enctype="multipart/form-data" action="{% url 'add_profile' %}">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <input type = "file" id = "profile_picture" name ="profile_picture">
+                            <input class = "upload-button" type = "submit" value = "Upload" = "btn btn-secondary">
+                        </form>
+                        {% load humanize %}
+                    
+                </div>
+
+                <div class = "item-box balance-container">
+                    <p>Balance: ₱ {{ balance.amount|intcomma }}</p>
+               
+                    <form method="post" class = "input-form" id="BalanceForm" action="{% url 'add_balance' %}">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <input class = "input-amount" type="number" name="amount" id="amount" placeholder="Amount" required>
+                        <div class="add-container">
+                            <button type="button" onclick="clicked('add')">ADD BALANCE</button>
+                            <button type="button" onclick="clicked('deduct')">DEDUCT BALANCE</button>
+                        </div>
+                    </form>
+                    <script>
+                        function clicked(actionType) {
+                            const form = document.getElementById('BalanceForm');
+                            if (actionType === 'add') {
+                                form.action = "{% url 'add_balance' %}";
+                            } else if (actionType === 'deduct') {
+                                form.action = "{% url 'deduct_balance' %}";
+                            }
+                            form.submit();
+                        }
+                    </script>
+
+                    <p>Savings: ₱ {{ initial_savings|intcomma }}</p>
+                    <form method="post" class = "input-form" id="SavingsForm" action="{% url 'add_savings' %}">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <input class = "input-amount" type="number" name="savings" id="savings" placeholder="Savings" required>
+                        <div class="add-container">
+                            {% comment %} <button class="label">ADD SAVING</button> {% endcomment %}
+                            <button type="button" onclick="changeAction('add')">ADD SAVING</button>
+                            <button type="button" onclick="changeAction('withdraw')">WITHDRAW</button>
+                        </div>
+                    </form>
+                    <script>
+                        function changeAction(actionType) {
+                            const form = document.getElementById('SavingsForm');
+                            if (actionType === 'add') {
+                                form.action = "{% url 'add_savings' %}";
+                            } else if (actionType === 'withdraw') {
+                                form.action = "{% url 'withdraw' %}";
+                            }
+                            form.submit();
+                        }
+                    </script>
+                </div>
+               
+                
+            </div>{% comment %} start {% endcomment %}
+            <div class="item-box expense-box">
+                <h1>UPDATE PRODUCT</h1>
+                
+                {% comment %} pop content was here {% endcomment %}
+
+
+                <div class="row-items">
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <input type="text" name="name" id="name" placeholder="Type of expenses" value = {{upitems.name}}>
+                        <input type="number" name="price" id="price" placeholder="Price" value = {{upitems.price}}>
+                        <input type="text" name="desc" id="desc" placeholder="Description"  value = {{upitems.desc}} >
+                        <div class="center-container">
+                            <button>
+                                <span class="transition"></span>
+                                <span class="gradient"></span>
+                      
+                              </button>
+                        </div>
+                        <div class="center-container">
+                            <button type = "submit" id="btttn">UPDATE</button>
+                        </div>
+                    </form>
+                </div>
+                {% comment %} center-container add items was here {% endcomment %}
+                
+                
+            </div>
+           
+            
+      
+        </div>
+
+        <!-- JAVASCRIPT FILES --> 
+
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+        <script src="{% static 'js/counter.js' %}"></script>
+        <script src="{% static 'js/custom.js' %}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+
+ 
+
+    </body>
+
+
+
+    <footer class="site-footer">
+        <div class="property-container ">
+            <p class="copyright-text">Copyright © Baljeet 2050</p>
+            <p class="footer-menu-item"><a href="#" class="footer-menu-link">Privacy Policy & Terms</a></p>     
+        </div>
+
+        <div class="icon-container">
+            <ul class="social-icon">
+                <li class="social-icon-item">
+                    <a href="#" class="social-icon-link bi-twitter"></a>
+                </li>
+
+                <li class="social-icon-item">
+                    <a href="#" class="social-icon-link bi-facebook"></a>
+                </li>
+
+                <li class="social-icon-item">
+                    <a href="#" class="social-icon-link bi-linkedin"></a>
+                </li>
+
+                <li class="social-icon-item">
+                    <a href="#" class="social-icon-link bi-instagram"></a>
+                </li>
+
+                <li class="social-icon-item">
+                    <a href="#" class="social-icon-link bi-youtube"></a>
+                </li>
+            </ul>
+        </div>
+        
+        <p>Designer: <a class="sponsored-link" rel="sponsored" href="https://www.tooplate.com" target="_blank">Jhon Laden</a></p>
+
+        <a class="back-top-icon bi-arrow-up d-flex justify-content-center align-items-center" href="#"></a>
+    </footer>
+
+    
+</html>

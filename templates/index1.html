@@ -1,0 +1,575 @@
+{% load static %}
+{% load humanize %}
+<!doctype html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="">
+        <meta name="author" content="">
+      
+
+        <title>RE</title>
+
+        <!-- CSS FILES -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100;300;400;600;700&display=swap" rel="stylesheet">
+       
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+       
+        <link href="{% static 'css/bootstrap-icons.css' %}" rel="stylesheet">
+
+        <link href="{% static 'css/owl.carousel.min.css' %}" rel="stylesheet">
+
+        <link href="{% static 'css/owl.theme.default.min.css' %}" rel="stylesheet">
+
+        <link href="{% static 'css/style.css' %}" rel="stylesheet">
+        
+        <link href="{% static 'css/everything.css' %}" rel="stylesheet">
+
+        <link rel="icon" href="{% static 'images/icon.png' %}" type="image/x-icon">
+
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    </head>
+
+
+    <body >
+
+        <div class="pop">
+            <div class="pop-content">
+                    <h3> ADD ITEM </h3>
+                    <form method="post" action="{% url 'add_items' %}">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <img src="{%static 'images/xsymbol2.png' %}" alt="close" class="close">
+                        <div class = "form-item">
+                            <label for="name">Item Name:</label>
+                        <input type="text" name="name" id="name" placeholder="Type of expenses"required>
+                        </div>
+                        <div class = "form-item">
+                            <label for="price">Item Price:</label>
+                            <input type="number" name="price" id="price" placeholder="Price"required oninput="validateNumericInput(this)">
+                        </div>
+                        <div class = "form-item">
+                            <label for="desc">Description:</label>
+                        <input type="textarea" name="desc" id="desc" placeholder="Description" value = "-" required>
+                        </div>
+                        
+                        <div class="center-container add-container">
+                            <button>
+                                <span class="transition"></span>
+                                <span class="gradient"></span>
+                                <span class="label">Add Item</span>
+                              </button>
+                        </div>
+                    </form>
+               
+            </div>
+        </div>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="{%url 'home'%}">
+                    <img src="{% static 'images/newlogofinal.png' %}" class="img-fluid logo-image">
+                    <div class="d-flex flex-column">
+                        <strong class="logo-text">Baljeet</strong>
+                        <small class="logo-slogan">Where Money Meets Intelligence</small>
+
+                    </div>
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav align-items-center ms-lg-5">
+
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Dashboard</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{%url 'about'%}">About Baljeet</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{%url 'contact'%}">Contacts</a>
+                        </li>
+                        </li>
+
+                    {% if user.is_authenticated %}
+                        <li class="nav-item ms-lg-auto">
+                            <a class="nav-link custom-btn btn" href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item ms-lg-auto">
+                            <a class="nav-link custom-btn btn" href="{% url 'login' %}">Login</a>
+                        </li>
+                    {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class = "header-margin-container"> </div>
+        
+        <section class = "body-section">
+            <div class = "wallet-expenses">
+                <div class=" wallet-box">
+                    <div class = "item-box profile-container">
+                        {% for msg in messages %}
+                            {% if msg.tags == 'success' %}
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <strong>Success!</strong> {{ msg }}
+                                    <button type="button" class="btn-close my-button" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% elif msg.tags == 'error' %}
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong>Error!</strong> {{ msg }}
+                                    <button type="button" class="btn-close my-button" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    
+                    
+                        <div class = "circular">
+                        {% if balance.profile_picture %}
+                        <img src="{{ balance.profile_picture.url }}" alt="Profile Picture">
+                      
+                        {% else %}
+                        <img src="{%static 'images/defpic.png' %}" alt="Profile Picture">
+                        {% endif %}
+
+                        <div class = "edit-container edit-profile-open">
+                            <i class='bx bxs-edit-alt'></i>
+                        </div>
+
+                        </div>
+
+                        <h2>{{ request.user.username }}</h2>
+                     
+                        <div class = "edit-profile-model">
+                            <form class = "edit-profile-form" method="post" enctype="multipart/form-data" action="{% url 'add_profile' %}">
+                                <div class = "x-button-container edit-profile-close">
+                                    <i class='bx bx-x'></i>
+                                </div>
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                <input type = "file" id = "profile_picture" name ="profile_picture">
+                                <input class = "upload-button" type = "submit" value = "Upload" = "btn btn-secondary">
+                            </form>
+                        </div>
+
+                        <form method="post" id="delrecord" class="delrecord" action ="{% url 'del-record' %}">
+                            {% csrf_token %}
+                            <div class="del-container">
+                                {% comment %} <a href="{%url 'del-record'%}"> DELETE RECORD  </a> {% endcomment %}
+                                
+                                <input type="checkbox" class = "open-delete-pop" id="del-record" name="del-record" >
+                                <label  for="del-record"> DELETE RECORD </label>
+                                <div class = "delete-record-pop close-pop"> 
+                                    <div class = "delete-record-pop-container"> 
+                                        <h3> Delete Record </h3>
+                                        <p> (this can't be undone) </p>
+                                        <div class = "option-container">
+                                            <label for = "del-record"> Cancel</label>
+                                            <button> Confirm</button>
+                                        </button>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        
+                    
+                </div>
+
+                <div class = "item-box balance-container">
+                    <p>Balance: ₱ {{ balance.amount|intcomma }}</p>
+               
+                    <form method="post" class = "input-form" id="BalanceForm" action="{% url 'add_balance' %}">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <input class = "input-amount" type="number" name="amount" id="amount" placeholder="Amount" oninput="validateNumericInput(this)" required>
+                        <div class="add-container">
+                            <button type="button" class="popupid" onclick="clicked('add')">ADD BALANCE</button>
+                            <button type="button" class="popupid" onclick="clicked('deduct')">DEDUCT BALANCE</button>
+                        </div>
+                    </form>
+                    <script>
+                        function clicked(actionType) {
+                            const form = document.getElementById('BalanceForm');
+                            if (actionType === 'add') {
+                                form.action = "{% url 'add_balance' %}";
+                            } else if (actionType === 'deduct') {
+                                form.action = "{% url 'deduct_balance' %}";
+                            }
+                            form.submit();
+                        }
+                    </script>
+
+                    <p>Savings: ₱ {{ initial_savings|intcomma }}</p>
+                    <form method="post" class = "input-form" id="SavingsForm" action="{% url 'add_savings' %}">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <input class = "input-amount" type="number" name="savings" id="savings" placeholder="Savings" oninput="validateNumericInput(this)" required>
+                        <div class="add-container">
+                            {% comment %} <button class="label">ADD SAVING</button> {% endcomment %}
+                            <button type="button" class="popupid" onclick="changeAction('add')">ADD SAVINGS</button>
+                            <button type="button" class="popupid" onclick="changeAction('withdraw')">WITHDRAW</button>
+                        </div>
+                    </form>
+                   
+                    <script>
+                        function changeAction(actionType) {
+                            const form = document.getElementById('SavingsForm');
+                            if (actionType === 'add') {
+                                form.action = "{% url 'add_savings' %}";
+                            } else if (actionType === 'withdraw') {
+                                form.action = "{% url 'withdraw' %}";
+                            }
+                            form.submit();
+                        }
+                    </script>
+                </div>
+               
+                
+            </div>{% comment %} start {% endcomment %}
+            <div class="item-box expense-box">
+                <h1>EXPENSES</h1>
+                
+                {% comment %} pop content was here {% endcomment %}
+
+                <form method = "POST" action="{% url 'search_items' %}" class = "search-container"> 
+                    {%csrf_token%}
+                    <input type="text" name ="searched" id ="searched" placeholder="Search Item">
+                    <button type = "submit" class="popupid">
+                        <box-icon name='search'></box-icon>  
+                    </button>
+                </form>
+
+                <div class="row-items">
+
+                    {%if searched %} {{search_query}}
+                </br>
+                    {%for item in items%}
+                        {{item}}</br>
+                        {%endfor%}
+                    {%endif%}
+
+                     {% for item in items %}
+                    <div class = "new-card" >
+                        
+                        
+                        <div class = "x-button-container">
+                            <div class = "x-button-model">
+                                <div class = "model-body">
+                                    <div class = "model-header">
+                                        <h4> Delete this item? </h4>
+                                    </div>
+                                    <div class = "option-container">
+                                        <button class ="x-model-close">Cancel</button>
+                                        <button  ><a href ="{%url 'delete-item' item.id %}">Confirm</a></button>    
+                                    </div>
+                                </div>
+                            </div>
+                            <a href ="{%url 'delete-item' item.id %}"><i class='bx bxs-trash'></i></a> 
+                            <button class = "x-button x-model-open"> <i class='bx bxs-trash'></i> </button>
+                        </div>
+                        
+                        <div class = "card-item-header"> 
+                            <div class = "img-container">   <img src="{% static 'images/itemlogos.png' %}" alt="img container" ></div>
+                            <div class = "card-item-title-sub"> 
+                                <h2 class = "card-item-title">{{ item.name }} </h2>
+                                <h3 class = "card-item-sub">₱{{ item.price|intcomma }}</h3>
+                            
+                                <h3 class = "card-item-sub">{{ item.date }}</h3>
+                            </div>
+                        </div>
+                        <div class = "card-item-body">
+                            <p>{{item.desc}}</p>
+                            
+                        </div>
+                        <div class = "read-more-container">
+                            <div class = "read-more-model">
+                                <div class = "model">
+                                    <div class = "model-header"> <h3> UPDATE ITEM </h3> </div>
+                                    <div class = "model-body"> 
+                                        <form id ="editform" method = "POST" action="{% url 'update-item' item.id %}">
+                                            {%csrf_token%}
+                                            {{form.as_p}}
+                                            <div class = "form-item">
+                                                <label for="itemName">Item Name:</label>
+                                                <input type="text" id="itemName" name="ItemName" value = "{{item.name}}">
+                                            </div>  
+                                            <div class = "form-item">
+                                                <label for="ItemPrice">Item Price:</label>
+                                                <input type="number" id="ItemPrice" name="ItemPrice" oninput="validateNumericInput(this)" value = {{item.price}}>
+                                                
+                                            </div>
+                                            <div class = "form-item">
+                                                <label class = "form-description" for="itemDescription">Item Description:</label>
+                                                <textarea type="Description" id="Desc" name="Desc">{{item.desc}}</textarea>
+                                            </div>
+                                            <div class = "option-container">
+                                                <button class = "close-edit"> Cancel </button>
+
+                                                
+                                                <button type = "submit" class = "open-save"> Save </butotn>
+                                            </div>
+                                                
+                                        </form>
+                                    </div>
+                                    
+                               
+                                </div>
+                               
+                            </div>
+                            <button class = "read-more-button open-edit" >EDIT </button>
+                        </div>
+                    </div> 
+                    {% comment %} 2nd item style {% endcomment %}
+                    {% empty %}
+                    
+                    {% endfor %} 
+                </div>
+                {% comment %} center-container add items was here {% endcomment %}
+                <div class="center-container">
+                    <a href="#" class="popupid" id="btttn">ADD ITEMS</a>
+                </div>
+                
+            </div>
+            <script type = "text/javascript">
+                document.getElementById("btttn").addEventListener("click", function(){
+                    document.querySelector(".pop").style.transform="scale(1)";
+                })
+                document.querySelector(".close").addEventListener("click",function(){
+                    document.querySelector(".pop").style.transform="scale(0)";
+                }) 
+            </script>
+            
+            {% comment %} end {% endcomment %}
+        </div>
+
+            <div class="chart-div">
+                <div class="chart-box ">
+                    <canvas id="chart1"></canvas>
+                </div>
+            
+                <div class="chart-box">
+                    <canvas id="chart2"></canvas>
+                </div>
+                
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            
+                <script>
+                    const ctx1 = document.getElementById('chart1').getContext('2d');
+                    new Chart(ctx1, {
+                        type: 'bar',
+                        data: {
+                            labels: [{% for item in items %}'{{ item.name }}',{% endfor %}],
+                            datasets: [{
+                                label: 'ITEMS',
+                                data: [{% for item in items %}'{{ item.price }}',{% endfor %}],
+                                borderWidth: 1,
+                                backgroundColor: [
+                                    '#89feff'
+
+                                ]
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+            
+                    const ctx2 = document.getElementById('chart2').getContext('2d');
+                    new Chart(ctx2, {
+                        type: 'pie',
+                        data: {
+                            labels: [{% for item in items %}'{{ item.name }}',{% endfor %}],
+                            datasets: [{
+                                data: [{% for item in items %}'{{ item.price }}',{% endfor %}],
+                                backgroundColor: [
+                                'aqua', 'black', 'blue', 'fuchsia', 'gray', 'green', 'lime', 'maroon', 'navy', 'olive', 'purple', 'red', 'silver', 'teal', 'white', 'yellow','#FF5733','#3498DB','#9B59B6','#E74C3C','rgb(255, 99, 71)','rgb(70, 130, 180)' ,'rgb(144, 238, 144)','#2F4F4F','#708090','#F5F5DC','#8B0000','#CD5C5C','#0000CD','	#FFE4E1','	#BDB76B','#C71585','#FF4500','#D3D3D3','#C0C0C0','#DAA520','#1E90FF','#7FFFD4','#808000','#7FFF00','#FF00FF','#F0E68C','#FF1493','#87CEFA', '#D2691E' // Add colors as needed
+                                ]
+                                
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false
+                        }
+                    });
+                    
+                </script>
+
+            </div>
+                <div class="chart-div">
+                    <div class="chart-box">
+                        <canvas id="chart3"></canvas>
+                    </div>
+                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                    <script>
+                        const ctx3 = document.getElementById('chart3').getContext('2d');
+                        const historyData = {
+                            labels: [],
+                            datasets: [{
+                                label: 'BALANCE HISTORY',
+                                data: [],
+                                borderWidth: 1
+                            }]
+                        };
+            
+                        {% for historydata in historydatas %}
+                            historyData.labels.push('{{ historydata.type }}');
+                            historyData.datasets[0].data.push('{{ historydata.amount_history }}');
+                        {% endfor %}
+            
+                        new Chart(ctx3, {
+                            type: 'line',
+                            data: historyData,
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+                    </script>
+                </div>
+                
+
+        
+
+        {% comment %} model {% endcomment %}
+      
+
+        <!-- JAVASCRIPT FILES --> 
+
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+        <script src="{% static 'js/counter.js' %}"></script>
+        <script src="{% static 'js/custom.js' %}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+
+        <script type = "text/javascript">
+            $('.edit-profile-open').click(function(){
+                event.preventDefault();
+                $('.edit-profile-model').css('transform', 'scale(1)');
+
+            })
+            $('.edit-profile-close').click(function(){
+                event.preventDefault();
+                $('.edit-profile-model').css('transform', 'scale(0)');
+
+            })
+            $('.x-model-open').click(function(){
+                event.preventDefault();
+                $('.x-button-model').css('left', '100%');
+
+                var allSiblings = $(this).siblings();
+                var targetSibling = allSiblings.filter('.x-button-model');
+                targetSibling.css('left', '0');
+            })
+            $('.x-model-close').click(function(){
+                event.preventDefault();
+                $('.x-button-model').css('left', '100%');
+
+            })
+            $('.open-edit').click(function(){
+                event.preventDefault();
+                var allSiblings = $(this).siblings();
+
+                // Filter down to the element with class 'read-more-model'
+                var targetSibling = allSiblings.filter('.read-more-model');
+
+                // Now you can perform actions on the target parent element
+                // For example, you can add a class to the target parent element
+                targetSibling.css('transform', 'scale(1)');
+            })
+        
+            $('.close-edit').click(function(){
+                event.preventDefault();
+                 // Select all ancestors of the element with class 'open-edit'
+                 var targetParent = $(this).parents('.read-more-model');
+ 
+                 // Now you can perform actions on the target parent element
+                 // For example, you can add a class to the target parent element
+                 targetParent.css('transform', 'scale(0)');
+                 
+            })
+            $('#open-save').click(function(){
+                $('.save-model').css('transform', 'translate(-150%,-50%)');
+
+            })
+            $('#close-save').click(function(){
+                $('.save-model').css('transform', 'translate(-50%,-50%)');
+
+            })
+
+
+            function validateNumericInput(input) {
+                input.value = input.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+            }
+
+        </script>
+        
+        
+
+    </body>
+
+
+
+    <footer class="site-footer">
+        <div class="property-container ">
+            <p class="copyright-text">Copyright © Baljeet 2050</p>
+            <p class="footer-menu-item"><a href="#" class="footer-menu-link">Privacy Policy & Terms</a></p>     
+        </div>
+
+        <div class="icon-container">
+            <ul class="social-icon">
+                <li class="social-icon-item">
+                    <a href="https://twitter.com/secretlyXLR8?fbclid=IwAR2fDCVpLzsrmc7upI-dhsYwlqKaN1aMNWDznw3IIkq4_sakDb2_50GSkPc" target="_blank" class="social-icon-link bi-twitter"></a>
+                </li>
+
+                <li class="social-icon-item">
+                    <a href="https://www.facebook.com/Daaawg" target="_blank" class="social-icon-link bi-facebook"></a>
+                </li>
+
+                <li class="social-icon-item">
+                    <a href="https://www.instagram.com/eixaxx/" target="_blank"  class="social-icon-link bi-linkedin"></a>
+                </li>
+
+                <li class="social-icon-item">
+                    <a href="https://www.instagram.com/j.xlr8/?fbclid=IwAR3QsJca5f9VTEJZ8mamaY8n3_ak38T0ZrL5Z069PNhvS9jONUOyUFxCQAA" target="_blank" class="social-icon-link bi-instagram"></a>
+                </li>
+
+                <li class="social-icon-item">
+                    <a href="https://twitter.com/eixaxxjpg?s=09&fbclid=IwAR1j-_GbUGgGaTXMSRKVi9o5sdrCNN5XHFIuHRAe74OkQNZxwPU72kl8JkA" target="_blank" class="social-icon-link bi-youtube"></a>
+                </li>
+            </ul>
+        </div>
+        <p>Creators: <a class="sponsored-link" rel="sponsored" href="https://drive.google.com/drive/u/0/folders/13nWPBl37UE9pB-gNsUxMAOlDMhk3n1kx" target="_blank">I miss u </a></p>
+
+        <a class="back-top-icon bi-arrow-up d-flex justify-content-center align-items-center" href="#"></a>
+    </footer>
+
+    
+</html>

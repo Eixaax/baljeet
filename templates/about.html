@@ -1,0 +1,362 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>About Baljeet</title>
+
+        <!-- CSS FILES -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100;300;400;600;700&display=swap" rel="stylesheet">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+       
+        <link href="{% static 'css/bootstrap-icons.css' %}" rel="stylesheet">
+
+        <link href="{% static 'css/owl.carousel.min.css' %}" rel="stylesheet">
+
+        <link href="{% static 'css/owl.theme.default.min.css' %}" rel="stylesheet">
+
+        <link href="{% static 'css/style.css' %}" rel="stylesheet">
+        
+        <link href="{% static 'css/everything.css' %}" rel="stylesheet">
+
+        <link href="{% static 'css/about.css' %}" rel="stylesheet">
+
+        <link rel="icon" href="{% static 'images/icon.png' %}" type="image/x-icon">
+
+    </head>
+    
+    <body class="about-page" id="top">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="{%url 'home'%}">
+                    <img src="{% static 'images/newlogofinal.png' %}" class="img-fluid logo-image">
+
+                    <div class="d-flex flex-column">
+                        <strong class="logo-text">Baljeet</strong>
+                        <small class="logo-slogan">Where Money Meets Intelligence</small>
+                    </div>
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+    
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav align-items-center ms-lg-5">
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'home' %}">Dashboard</a>
+                        </li>
+                    {% else %}
+                    <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">home</a>
+                        </li>
+                    {% endif %}
+                    
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">About Baljeet</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link " href="{%url 'contact'%}">Contacts</a>
+                        </li>
+
+                        {% if user.is_authenticated %}
+                        <li class="nav-item ms-lg-auto">
+                            <a class="nav-link custom-btn btn" href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item ms-lg-auto">
+                            <a class="nav-link custom-btn btn" href="{% url 'home' %}">Login</a>
+                        </li>
+                    {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <main>
+            <section class="about-section">
+                <div class="container">
+                    <div class="about-info-text">
+                        <h2 >ABOUT US</h2>
+
+                        <h4 >BALJEET</h4>
+                        <p>
+                            Welcome to Baljeet, your all-in-one solution for managing expenses, saving, and achieving your financial goals.
+                        </p>
+                        <p>
+                            Mission:
+                        </p>
+                        <p>
+                            At Baljeet, our mission is to empower individuals to take control of their finances, make informed spending decisions, and achieve their savings goals. We understand that managing money can be challenging, and our goal is to simplify the process, provide valuable insights, and help you on your journey towards financial well-being.
+                        </p>
+                    </div> 
+                    <div class = "card-container-animated">
+                        <div class="card">
+                            <div class="header">
+                                <div class="img-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path fill="none" d="M0 0h24v24H0z"></path>
+                                        <path d="M20.083 15.2l1.202.721a.5.5 0 0 1 0 .858l-8.77 5.262a1 1 0 0 1-1.03 0l-8.77-5.262a.5.5 0 0 1 0-.858l1.202-.721L12 20.05l8.083-4.85zm0-4.7l1.202.721a.5.5 0 0 1 0 .858L12 17.65l-9.285-5.571a.5.5 0 0 1 0-.858l1.202-.721L12 15.35l8.083-4.85zm-7.569-9.191l8.771 5.262a.5.5 0 0 1 0 .858L12 13 2.715 7.429a.5.5 0 0 1 0-.858l8.77-5.262a1 1 0 0 1 1.03 0zM12 3.332L5.887 7 12 10.668 18.113 7 12 3.332z" fill="rgba(66,193,110,1)"></path>
+                                    </svg>
+                                </div>
+                                <span class="title">ACCOUNT DASHBOARD
+                                </span>
+                            </div>
+                            
+                        
+                            <div class="content">
+                                <p>
+                                    "Offers a glance at account balances, spending patterns, items, and savings portfolios where applicable."
+                                </p>
+                            </div>
+   
+                        </div>
+
+                        <div class="card">
+                            <div class="header">
+                                <div class="img-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path fill="none" d="M0 0h24v24H0z"></path>
+                                        <path d="M20.083 15.2l1.202.721a.5.5 0 0 1 0 .858l-8.77 5.262a1 1 0 0 1-1.03 0l-8.77-5.262a.5.5 0 0 1 0-.858l1.202-.721L12 20.05l8.083-4.85zm0-4.7l1.202.721a.5.5 0 0 1 0 .858L12 17.65l-9.285-5.571a.5.5 0 0 1 0-.858l1.202-.721L12 15.35l8.083-4.85zm-7.569-9.191l8.771 5.262a.5.5 0 0 1 0 .858L12 13 2.715 7.429a.5.5 0 0 1 0-.858l8.77-5.262a1 1 0 0 1 1.03 0zM12 3.332L5.887 7 12 10.668 18.113 7 12 3.332z" fill="rgba(66,193,110,1)"></path>
+                                    </svg>
+                                </div>
+                                <span class="title"> TRANSACTION HISTORY
+                            </span></div>
+                        
+                            <div class="content">
+                                <p>
+                                    "Optimize user experience with detailed transaction history, categorization (expenses, income, transfers), and customizable tags for personalized insights."
+                                </p>
+                            </div>
+                                
+                        </div>
+                        <div class="card">
+                            <div class="header">
+                                <div class="img-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path fill="none" d="M0 0h24v24H0z"></path>
+                                        <path d="M20.083 15.2l1.202.721a.5.5 0 0 1 0 .858l-8.77 5.262a1 1 0 0 1-1.03 0l-8.77-5.262a.5.5 0 0 1 0-.858l1.202-.721L12 20.05l8.083-4.85zm0-4.7l1.202.721a.5.5 0 0 1 0 .858L12 17.65l-9.285-5.571a.5.5 0 0 1 0-.858l1.202-.721L12 15.35l8.083-4.85zm-7.569-9.191l8.771 5.262a.5.5 0 0 1 0 .858L12 13 2.715 7.429a.5.5 0 0 1 0-.858l8.77-5.262a1 1 0 0 1 1.03 0zM12 3.332L5.887 7 12 10.668 18.113 7 12 3.332z" fill="rgba(66,193,110,1)"></path>
+                                    </svg>
+                                </div>
+                                <span class="title">MOBILE RESPONSIVENESS
+                            </span></div>
+                        
+                            <div class="content">
+                                <p>
+                                    "Prioritize a seamless user experience by ensuring the website is mobile-friendly across devices and contemplate developing a dedicated mobile app for optimal accessibility.""
+                                </p>
+                            </div>
+                            
+                        </div>
+                        
+                        
+                    </div>
+
+                    
+                </div>
+
+                <div class = "do-container container flex-end">
+                    <div class = "right">
+                        <h2 class = "title"> What We Do</h2>
+
+                        <div class = "subtitle">
+                            Welcome to Baljeet, your ultimate financial management solution. We're here to simplify your financial journey by offering intuitive expense tracking, personalized budget planning, insightful analytics, and tailored recommendations. Our secure platform ensures your data remains protected while providing a user-friendly interface suitable for both finance experts and beginners. Take control of your finances, visualize your spending, and achieve your financial goals with Baljeet!
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class = "offer-container container flex-end">
+                    <div class = "left">
+                        <h2 class = "title"> What we offer</h2>
+
+                        <div class = "subtitle">
+                            Baljeet, where financial empowerment is at your fingertips. Our platform simplifies your financial journey by providing intuitive expense tracking, personalized budget planning, insightful analytics, and tailored recommendations. With a secure and user-friendly interface, Baljeet is designed for both finance experts and beginners. Take control of your finances, visualize your spending, and achieve your financial goals with confidence on our trusted platform.
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class = "value-container"> 
+                    <div class = "value-header flex-center">
+                        <h3>OUR VALUES</h3>
+                        <p> Baljeet is guided by a set of core values: </p>
+                    </div>
+    
+                    <div class = "card-container">
+                        
+                        <div class = "my-card flex-center"> 
+                            <h4 class = "card-title">Empowerment:</h4>
+                            <p class = "card-body">
+                                We empower you to take control of your finances.
+                            </p>
+                        </div>
+                        <div class = "my-card flex-center"> 
+                            <h4 class = "card-title">Innovation:</h4>
+                            <p class = "card-body">
+                                We continually innovate to offer the offer the best financial tools and solutions.
+                            </p>
+                        </div>
+                        <div class = "my-card flex-center"> 
+                            <h4 class = "card-title">Financial Well-Being:</h4>
+                            <p class = "card-body">
+                                Were dedicated to helping you achieve financial well-being.
+                            </p>
+                        </div>
+                        <div class = "my-card flex-center"> 
+                            <h4 class = "card-title">Transparency:</h4>
+                            <p class = "card-body">
+                                We're committed to transparent financial management and reporting.
+                            </p>
+                        </div>
+                        
+                    </div>
+
+                </div>
+
+                <div class = "member-container">
+                    <div class = "card-container flex-center">
+                        <div class = "my-card item-1">
+                            <div class = "card-img"> <img src="{% static 'images/System Analyst.jpg' %}">
+                                <div class = "icons-container" >
+                                    <div class = "icons" >
+                                        <a href ="https://twitter.com/secretlyXLR8?fbclid=IwAR2fDCVpLzsrmc7upI-dhsYwlqKaN1aMNWDznw3IIkq4_sakDb2_50GSkPc" target="_blank"> 
+                                            <i class='bx bxl-twitter' ></i>
+                                        </a>
+                                        <a href = "https://www.facebook.com/Jomari.Zabala.Francisco" target="_blank"> 
+                                            <i class='bx bxl-facebook-circle'></i>
+                                        </a>
+                                        <a href="https://www.instagram.com/j.xlr8/?fbclid=IwAR3QsJca5f9VTEJZ8mamaY8n3_ak38T0ZrL5Z069PNhvS9jONUOyUFxCQAA" target="_blank">
+                                            <i class='bx bxl-instagram-alt' ></i>
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class = "card-title-description">
+                                <h3 class = "card-title">System Analyst</h3>
+                                <p class = "card-body" >"You merely adopted the pain, I was born in it."</p>
+                                <p2 class = "card-body" > -Jomari 2023.</p2>
+                            </div>
+                        </div>
+                        <div class = "my-card item-2">
+                            <div class = "card-img"> <img src="{% static 'images/front-end Developer.jpg' %}">
+                                <div class = "icons-container" >
+                                    <div class = "icons" >
+                                        
+                                        <a href = "https://www.facebook.com/Daaawg" target="_blank"> 
+                                            <i class='bx bxl-facebook-circle'></i>
+                                        </a>
+                                        <a href = "https://www.instagram.com/earlxie/?fbclid=IwAR1VAAWcqQcuDjHG8RNhP1eIa27cwrEt1pTU77RoKLXmgbX6Tyk_i2kRff8" target="_blank">
+                                            <i class='bx bxl-instagram-alt' ></i>
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class = "card-title-description">
+                                <h3 class = "card-title">Front-End Developer</h3>
+                                <p class = "card-body" >"A good design is as very little design as possible."</p>
+                                <p2 class = "card-body" > -Earl 2023</p2>
+                            </div>
+                        </div>
+                        <div class = "my-card item-3">
+                            <div class = "card-img"> <img src="{% static 'images/Back-end Developer.jpg' %}">
+                                <div class = "icons-container" >
+                                    <div class = "icons" >
+                                        <a href ="https://twitter.com/eixaxxjpg?s=09&fbclid=IwAR1j-_GbUGgGaTXMSRKVi9o5sdrCNN5XHFIuHRAe74OkQNZxwPU72kl8JkA" target="_blank" > 
+                                            <i class='bx bxl-twitter' ></i>
+                                        </a>
+                                        <a href = "https://www.facebook.com/profile.php?id=100092686790116" target="_blank"> 
+                                            <i class='bx bxl-facebook-circle'></i>
+                                        </a>
+                                        <a href = "https://www.instagram.com/eixaxx/" target="_blank" >
+                                            <i class='bx bxl-instagram-alt' ></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class = "card-title-description">
+                                <h3 class = "card-title">Back-End Developer</h3>
+                                <p class = "card-body" >"LIMIT IS JUST AN ILLUSION"</p>
+                                <p2 class = "card-body" > -Isaac 2023</p2>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class = "outro-container flex-center">
+                    <p> Start your journey towards financial wellness with Baljeet. Sign up today and take control of your finances like never before.</p>
+
+
+                {% if user.is_authenticated %}
+                        <a href="{%url 'home'%}"> RETURN TO DASHBOARD </a>
+                {% else %}
+                        <a href="{%url 'login'%}"> GET STARTED  </a>
+                {% endif %}
+                </div>
+
+            </section>
+            
+
+           
+        </main>
+
+        <footer class="site-footer">
+            <div class="property-container ">
+                <p class="copyright-text">Copyright © Baljeet 2050</p>
+                <p class="footer-menu-item"><a href="#" class="footer-menu-link">Privacy Policy & Terms</a></p>     
+            </div>
+
+            <div class="icon-container">
+                <ul class="social-icon">
+                    <li class="social-icon-item">
+                        <a href="https://twitter.com/secretlyXLR8?fbclid=IwAR2fDCVpLzsrmc7upI-dhsYwlqKaN1aMNWDznw3IIkq4_sakDb2_50GSkPc" target="_blank" class="social-icon-link bi-twitter"></a>
+                    </li>
+
+                    <li class="social-icon-item">
+                        <a href="https://www.facebook.com/Daaawg" target="_blank" class="social-icon-link bi-facebook"></a>
+                    </li>
+
+                    <li class="social-icon-item">
+                        <a href="https://www.instagram.com/eixaxx/" target="_blank"  class="social-icon-link bi-linkedin"></a>
+                    </li>
+
+                    <li class="social-icon-item">
+                        <a href="https://www.instagram.com/j.xlr8/?fbclid=IwAR3QsJca5f9VTEJZ8mamaY8n3_ak38T0ZrL5Z069PNhvS9jONUOyUFxCQAA" target="_blank" class="social-icon-link bi-instagram"></a>
+                    </li>
+
+                    <li class="social-icon-item">
+                        <a href="https://twitter.com/eixaxxjpg?s=09&fbclid=IwAR1j-_GbUGgGaTXMSRKVi9o5sdrCNN5XHFIuHRAe74OkQNZxwPU72kl8JkA" target="_blank" class="social-icon-link bi-youtube"></a>
+                    </li>
+                </ul>
+            </div>
+            <p>Creators: <a class="sponsored-link" rel="sponsored" href="https://drive.google.com/drive/u/0/folders/13nWPBl37UE9pB-gNsUxMAOlDMhk3n1kx" target="_blank">I miss u </a></p>
+
+            <a class="back-top-icon bi-arrow-up d-flex justify-content-center align-items-center" href="#"></a>
+        </footer>
+
+
+        <!-- JAVASCRIPT FILES -->
+          <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+        <script src="{% static 'js/counter.js' %}"></script>
+        <script src="{% static 'js/custom.js' %}"></script>
+
+    </body>
+</html>
